@@ -1,0 +1,183 @@
+usuarios = []
+PetsCadastrados = []
+Produtos = ['Tapetes Higiênicos', 'Areia para Gatos', 'Brinquedos Interativos','Camas Confortáveis', 'Comedouros e Bebedouros Automáticos','Coleiras e Guias', 'Ração de Qualidade', 'Shampoos e Produtos de Higiene', 'Antipulgas e Carrapaticidas', 'Roupinhas e Acessórios', 'Casinhas e Tocas', 'Snacks e Petiscos', 'Caixas de Transporte', 'Fonte de Água para Gatos', 'Kit de Escovação Dental']
+PrecosProdutos = [50.00, 70.00, 85.00, 200.00, 60.00, 30.00, 100.00, 40.00, 250.00, 50.00, 80.00, 150.00, 50.00, 100.00, 40.00]
+Servicos = ['Banho Simples', 'Tosa Higiênica', 'Tosa Completa', 'Banho + Tosa Completa (Pacote)', 'Hidratação de Pelos', 'Desembolo de Pelos', 'Escovação de Dentes', 'Corte de Unhas (Avulso)']
+PrecosServicos = [] # falta colocar
+admin = [['admin', '12345']]
+
+while True:
+    print("\n===== Au Au Fofura =====")
+    print('Bem vindo ao PetShop')
+    print('1 - Fazer login')
+    print('2 - Cadastrar usuário')
+    print('3 - Cadastro de Pet')
+    print('4 - Listar Usuários e Pets')
+    print('0 - Sair\n')
+    opcao = input('Escolha a opção: ')
+
+    if opcao == '0': # Sair do Programa
+        print('Encerrando o programa...')
+        break
+
+    elif opcao == '1': # login
+        usuario = input('Usuario: ')
+        senha = input('Senha: ')
+        logado = 0
+        for i in admin:
+            if i[0] == usuario and i[1] == senha:
+                logado = 1
+
+        if logado == 1:
+            print('\nBem vindo ao acesso exclusivo!\n')
+            print('1 - Cadastrar produto / serviço')
+            print('2 - Alterar um produto / serviço')
+            print('3 - Deletar um produto / serviço')
+            print('4 - Listar produtos')
+            print('5 - Listar serviços')
+            print('0 - Voltar\n')
+            opcaoADM = input('Escolha a opção: ')
+            if opcaoADM == '0':
+                print('\nVoltando...\n')
+            elif opcaoADM == '1':
+                CadProduto = input('Deseja cadastrar produto ou serviço?: ')
+                while CadProduto not in ['produto', 'serviço']:
+                    print('Valor inválido ')
+                    CadProduto = input('Oque deseja cadastrar? (produto ou serviço): ')
+                if CadProduto == 'produto':
+                    NovoProduto = input('Digite o nome do novo produto: ')
+                    NovoPrecoProd = input('Digite o novo preço do produto: ')
+                    Produtos.append(NovoProduto)
+                    PrecosProdutos.append(NovoPrecoProd)
+                    print('Produto e preço cadastrados com sucesso!')
+                else:
+                    NovoServico = input('Digite o nome do novo serviço: ')
+                    NovoPrecoServ = input('Digite o novo preço do serviço: ')
+                    Servicos.append(NovoServico)
+                    PrecosServicos.append(NovoPrecoServ)
+                    print('Serviço e preço cadastrados com sucesso!')
+            
+
+
+            
+    
+
+        if logado == 0:
+            print('\nBem vindo cliente!\n')
+            print('1 - Comprar produtos')
+            print('2 - Agendamentos')
+            print('0 - Voltar\n')
+            opcaoCliente = input('Escolha a opção: ')
+            if opcaoCliente == '0':
+                print('\nVoltando...\n')
+            elif opcaoCliente == '1':  # Comprar produtos
+                sacola = []
+                soma = 0
+
+                while True:
+                    print('\n--- Produtos disponíveis ---')
+                    for indice in range(len(Produtos)):
+                        print(f'{indice} - {Produtos[indice]} | R$ {PrecosProdutos[indice]}')
+
+                    indice = int(input('\nDigite o índice do produto que deseja comprar: '))
+
+        # Verifica se o índice é válido
+                    while indice < 0 or indice >= len(Produtos):
+                        print('Valor inválido! Digite um índice que exista na lista.')
+                        indice = int(input('Digite novamente: '))
+
+        # Adiciona o produto na sacola
+                    sacola.append([Produtos[indice], PrecosProdutos[indice]])
+                    soma += PrecosProdutos[indice]
+                    print(f'\nVocê adicionou {Produtos[indice]} por R$ {PrecosProdutos[indice]}')
+                    print(f'Valor total: R$ {soma}')
+
+        # Pergunta se deseja continuar comprando
+                    continuar = input('\nDeseja comprar algo mais? <s/n>: ')
+                    if continuar not in ['s', 'sim', 'S', 'Sim']:
+                        break
+
+    # Mostra o que há na sacola
+                print('\n--- Sua Sacola ---')
+                for i in range(len(sacola)):
+                    print(f'{i} - {sacola[i][0]} | R$ {sacola[i][1]}')
+                print(f'\nTotal da compra: R$ {soma}')
+
+    # Remover produtos, se quiser
+                remover = input('\nDeseja remover algum item da sacola? <s/n>: ')
+                while remover in ['s', 'sim', 'S', 'Sim']:
+                    for i in range(len(sacola)):
+                        print(f'{i} - {sacola[i][0]} | R$ {sacola[i][1]}')
+                    indice = int(input('\nDigite o índice do produto que deseja remover: '))
+
+        # Verifica se o índice é válido
+                    while indice < 0 or indice >= len(sacola):
+                        print('Índice inválido!')
+                        indice = int(input('Digite novamente: '))
+
+        # Remove o item e atualiza o valor total
+                    print(f'\nItem {sacola[indice][0]} removido!')
+                    soma -= sacola[indice][1]
+                    sacola.pop(indice)
+
+        # Mostra o total atualizado
+                    print(f'\nNovo total: R$ {soma}')
+
+                    remover = input('\nDeseja remover mais algum item? <s/n>: ')
+
+    # Finalização da compra
+                print('\n--- Pagamento ---')
+                if len(sacola) == 0:
+                    print('Sacola vazia. Nenhum item comprado.')
+                else:
+                    for i in range(len(sacola)):
+                        print(f'{sacola[i][0]} | R$ {sacola[i][1]}')
+                    print(f'\nValor total a pagar: R$ {soma}')
+                print('\nCompra finalizada! Obrigado por comprar com a Au Au Fofura <3\n')
+
+
+
+
+
+
+
+
+    elif opcao == '2': # Cadastro de usuário
+        print('\nCadastro de Usuário.\n')
+        nome = input('Digite seu nome:')
+        idade = int(input('Digite sua data de nascimento [00/00/0000]: '))
+        nacionalidade = input('Onde você nasceu?: ')
+        usuarios.append([nome, idade, nacionalidade])
+
+    elif opcao == '3': # Cadastro de Pet
+        print('\nCadastro de Pet:\n')
+        nomePet = input('Qual o nome do seu Pet?: ')
+        sexoPet = input('Qual o sexo do seu Pet? <f/m> : ')
+        while sexoPet not in ['m', 'M', 'f', 'F']:
+            print('Valor inválido ')
+            sexoPet = input('Digite < f ou m >: ')
+        if sexoPet == 'm' or sexoPet == 'M':
+            sexoPet = 'Masculino'
+        else:
+            sexoPet = 'Feminino'
+        idadePet = int((input('Digite quantos anos tem seu Pet: ')))
+        while idadePet > 30 or idadePet < 0:
+            print('Idade negativa ou inválida!')
+            idadePet = int((input('Digite quantos anos tem seu Pet: ')))
+        quilosPet = float(input('Digite quantos quilos tem seu Pet: '))
+        while quilosPet > 155 or quilosPet < 0:
+            print('Peso negativo ou inválio!')
+            quilosPet = float(input('Digite quantos quilos tem seu Pet: '))
+        PetsCadastrados.append([nomePet, sexoPet, idadePet, quilosPet])
+
+    elif opcao == '4': # Listar Usuários e Pets
+        print('\nLista de usuários e pets\n')
+        for list in usuarios:
+            print(f'Nome: {list[0]} | Idade: {list[1]} | Nacionalidade: {list[2]}')
+        print('\nPets Cadastrados:\n')
+        for pets in PetsCadastrados:
+            print(f'Nome do pet: {pets[0]} | Sexo: {pets[1]} | Idade: {pets[2]} Anos | Peso: {pets[3]} Quilos')
+
+    
+    else:
+        print('\nPrograma falhou, escolha a opção correta!\n')
